@@ -1,4 +1,4 @@
 # kexec-reboot
 Reboot in seconds, not minuts
 ## example
-[![interactive_mode](https://asciinema.org/a/490291.svg)](https://asciinema.org/a/490291?autoplay=1)
+[![interactive_mode](https://asciinema.org/a/490292.svg)](https://asciinema.org/a/490292?autoplay=1)
