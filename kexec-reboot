@@ -38,11 +38,11 @@ main(){
 	die "No Grub configuration found"
 
 	# Use the first parameter or show a menu if none is specified
-	number=
+	kernelNum=
 	if [ -n "$1" ];then
 		# Make sure the selected number is an integer
 		echo "$1" | grep -q '[^0-9]*' && die "The selected parameter is not a number"
-		number=$1
+		kernelNum=$1
 	else
 		count=0
 		awk -F\' '/menuentry / {print $2}' "$GRUB_CONFIG" |
