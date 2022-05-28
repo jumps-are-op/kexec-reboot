@@ -46,7 +46,7 @@ main(){
 		kernelNum=$1
 	else
 		count=0
-		awk -F\' '/menuentry / {print $2}' "$GRUB_CONFIG" |
+		awk -F\' "/$GRUB_TITLE / {print \$2}" "$GRUB_CONFIG" |
 			while read -r item;do
 				((count+=1))
 				echo "$count: $item"
@@ -56,6 +56,7 @@ main(){
 			printf "\n%s\rkernel" \
 				"$(printf "%$(tput cols)s")"
 			read -r item || ! echo ||  exit 1
+
 			if [ -z "$item" ];then
 				printf "\033[2A"
 
@@ -66,7 +67,7 @@ main(){
 					"$(printf "%$(tput cols)s")" >&2
 				tput sgr0
 
-			elif [ "$item" = 0 ] || [ "$item" -gt "$(awk -F\' '/menuentry / {print $2}' "$GRUB_CONFIG" | wc -l)" ];then
+			elif [ "$item" = 0 ] || [ "$item" -gt "$(awk -F\' "/$GRUB_TITLE / {print \$2}" "$GRUB_CONFIG" | wc -l)" ];then
 				printf "\033[2A"
 				tput setaf 9
 				printf "%s\rKernel with that number dosen't exist" \
@@ -83,7 +84,7 @@ main(){
 		[ "$key" = "$GRUB_TITLE" ] && ((item+=1)) # Count the number of menu items
 		[ "$item" != "$kernelNum" ] && continue   # Wait until the right number
 		[ "$key" = "$GRUB_KERNEL" ] && kernel=$val && append=$extra
-		[ "$key" = "initrd" ] && initrd=$val
+		[ "$key" = initrd ] && initrd=$val
 	done < "$GRUB_CONFIG"
 
 	[ -n "$kernel" ] || die "Unable to find the kernel (file edited?)"
