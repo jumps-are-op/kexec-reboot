@@ -102,7 +102,7 @@ main(){
 	printf "\033[2A%s\n" \
 		"$(printf "%$(tput cols)s")"
 	tput civis
-	while [ "$(cat "$tmp")" = "" ];do
+	while [ "$(<"$tmp")" = "" ];do
 		printf "Rebooting..."
 		printf "\033[1A\r%s\n" "$loading"
 		case "$loading" in
@@ -124,9 +124,9 @@ main(){
 		esac
 		sleep 0.1
 	done
+	echo "Unable to reboot (exit $(<"$tmp"))"
 	rm -rf "$tmp"
 	tput cnorm
-	echo "Unable to reboot"
 }
 
 if [ "$(id -u)" != 0 ];then
