@@ -53,7 +53,7 @@ main(){
 			done
 
 		while true;do
-			printf "\n%s\rkernel" \
+			printf "\n%s\rkernel: " \
 				"$(printf "%$(tput cols)s")"
 			read -r item || ! echo ||  exit 1
 
