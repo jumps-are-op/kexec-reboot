@@ -53,7 +53,7 @@ main(){
 			done
 
 		while true;do
-			printf "\n%s\rkernel: " \
+			printf "\n%s\rkernel" \
 				"$(printf "%$(tput cols)s")"
 			read -r item || ! echo ||  exit 1
 
@@ -93,12 +93,6 @@ main(){
 	set -- "$root$kernel"
 	[ -n "${initrd+set}" ] && set -- "$@" --initrd="$root$initrd"
 	set -- "$@" --append="$append"
-
-	trap 'echo "Unable to reboot (exit $(<\"$tmp\"))"
-	rm -rf "$tmp"
-	tput cnorm
-	exit' EXIT INT
-
 	loading=▒▒▒▒▒▒▒▒▒▒
 	tmp=$(mktemp)
 	{
@@ -130,6 +124,9 @@ main(){
 		esac
 		sleep 0.1
 	done
+	rm -rf "$tmp"
+	tput cnorm
+	echo "Unable to reboot"
 }
 
 if [ "$(id -u)" != 0 ];then
